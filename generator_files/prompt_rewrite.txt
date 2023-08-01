@@ -1,0 +1,13 @@
+
+Rewrite the mardown file. 
+Structure it into bullet points.
+use Wikilinks, like the ones in the KMS Obsidian.
+You should also reference files that do not exist yet.
+Make sure to only return the files.
+
+
+Existing Files
+{files}
+
+File
+{text}
