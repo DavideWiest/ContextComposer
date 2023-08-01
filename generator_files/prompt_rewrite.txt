@@ -1,7 +1,8 @@
 
 Rewrite the mardown file. 
 Structure it into bullet points.
-use Wikilinks, like the ones in the KMS Obsidian.
+Use Wikilinks to reference to other concepts, like the ones in the KMS Obsidian.
+This is a [[Wikilink]] referencing to the concept Wikilink.
 You should also reference files that do not exist yet.
 Make sure to only return the files.
 
@@ -11,3 +12,4 @@ Existing Files
 
 File
 {text}
+

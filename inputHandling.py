@@ -16,6 +16,4 @@ def loadInputFromTerminal() -> str:
     else:
         raise Exception("Invalid input type")
     
-    print("input text raw")
-    print(text)
     return text

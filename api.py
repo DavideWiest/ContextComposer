@@ -45,8 +45,9 @@ def getFullGPTOutput(input: str) -> list[tuple[str, str]]:
         )
         outputText = response["choices"][0]["message"]["content"]
 
-        # print("ot")
-        # print(outputText)
+        print("ot")
+        print(outputText)
+        print("----------")
         if response["choices"][0]["finish_reason"] != "stop":
             subinput_0, subinput_1 = splitSentencesByTokens(input, math.ceil(INPUT_TOKEN_SPLIT_COUNT / 2))
             splitInput.appendleft(0, subinput_0)

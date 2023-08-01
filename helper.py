@@ -89,20 +89,18 @@ def split_mp3_into_parts(audioFileLoc: str, part_size_mb: int):
 
     return parts
 
-
 def splitOutput(output: str) -> list[tuple[str, str]]:
     outputFilePairs = [
-        fileString.split("\n", 1) for fileString in output.split(NEWFILE_KW)  if fileString.strip() != ""
+        (fileString.split("\n", 1)[0].strip(), fileString.split("\n", 1)[-1].strip()) for fileString in output.split(NEWFILE_KW) if fileString.strip() not in ("", "---")
     ]
-    for i, fp in enumerate(outputFilePairs):
-        if fp.startswith("---"):
-            outputFilePairs[i] = fp[3:]
-        if fp.endswith("---"):
-            outputFilePairs[i] = fp[:-3]
 
-    return [
-        (name.strip(), content.strip()) for name, content in outputFilePairs
-    ]
+    for i, fp in enumerate(outputFilePairs):
+        if fp[1].strip().startswith("---"):
+            outputFilePairs[i] = fp.strip()[3:]
+        if fp[1].strip().endswith("---"):
+            outputFilePairs[i] = fp.strip()[:-3]
+
+    return outputFilePairs
 
 def saveAllFiles(fileTuples: list[tuple[str, str]], outputDir):
     for name, content in fileTuples:

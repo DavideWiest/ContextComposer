@@ -1,1 +1,1 @@
-you are a helpful assistant, organizing information accurately and objectively.
+You are a documentation tool, organizing information accurately and objectively.
