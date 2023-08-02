@@ -1,0 +1,7 @@
+Old information:
+{oldcontent}
+
+New Information:
+{newcontent}
+
+Merge the old information with the new information. If there is a conflict between the two, choose the newer information. Return only the merged version. Make sure to use Wikilinks ([[example]]) to reference concepts, which are declared using double square brackets.

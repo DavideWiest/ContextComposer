@@ -22,42 +22,6 @@ def whisperCallSplit(audioParts):
 
     return transcriptFull
 
-def getFullGPTOutput(input: str) -> list[tuple[str, str]]:
-    "splits the text up into"
-
-    filePairs = []
-
-    rawPromptTokens = len(encoding.encode(PROMPTTEXT))
-    ssbt = splitSentencesByTokens(input, INPUT_TOKEN_SPLIT_COUNT - rawPromptTokens)
-    # print("ssbt")
-    # print(ssbt)
-
-    splitInput = deque(ssbt)
-    # TODO: if not accurate enough, inlcude previous messages with a separate variable for that
-    
-    while splitInput:
-        subinput = splitInput.pop()
-
-        existingFiles = [fp[0] for fp in filePairs]
-        existingFilesStr = ", ".join(existingFiles) + "\n\n"
-        response = getGPTOutput(
-            populatePrompt(PROMPTTEXT, subinput, existingFilesStr), MODEL_MAX_TOKENS
-        )
-        outputText = response["choices"][0]["message"]["content"]
-
-        print("ot")
-        print(outputText)
-        print("----------")
-        if response["choices"][0]["finish_reason"] != "stop":
-            subinput_0, subinput_1 = splitSentencesByTokens(input, math.ceil(INPUT_TOKEN_SPLIT_COUNT / 2))
-            splitInput.appendleft(0, subinput_0)
-            splitInput.appendleft(1, subinput_1)
-        else:
-            filePairs += splitOutput(outputText)
-
-    return filePairs
-
-
 def rewriteAllFiles(outputDir):
     existing_files = []
     for filename in os.listdir(outputDir):
@@ -72,7 +36,7 @@ def rewriteAllFiles(outputDir):
             file = f.read()
 
         fileRewritten = getGPTOutput(
-            populatePrompt(PROMPTTEXT, file, os.listdir(outputDir)), MODEL_MAX_TOKENS
+            populatePrompt(PROMPTTEXT_REWRITE, file, os.listdir(outputDir)), MODEL_MAX_TOKENS
         )
         fileRewritten = fileRewritten["choices"][0]["message"]["content"]
 

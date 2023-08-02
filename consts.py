@@ -1,6 +1,6 @@
 
 
-NEWFILE_KW = "\n# "
+NEWSECTION_KW = "\n# "
 INPUTYPE_OPTIONS = ["text", "t", "textFile", "tf", "audioFile", "af"]
 
 MAX_SENTECE_WC = 25
@@ -17,4 +17,9 @@ with open("generator_files/system_role.txt", "r") as f:
     SYSTEM_ROLE = f.read()
 with open("generator_files/prompt.txt", "r") as f:
     PROMPTTEXT = f.read()
-
+with open("generator_files/prompt_rewrite.txt", "r") as f:
+    PROMPTTEXT_REWRITE = f.read()
+with open("generator_files/prompt_findeditfiles.txt", "r") as f:
+    PROMPTTEXT_FINDEDITS = f.read()
+with open("generator_files/prompt_mergecontent.txt", "r") as f:
+    PROMPTTEXT_MERGECONTENT = f.read()

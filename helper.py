@@ -7,15 +7,25 @@ from consts import *
 
 import tiktoken
 
-# Train a BPE tokeniser on a small amount of text
 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
-# Visualise how the GPT-4 encoder encodes text
-encoding.encode("hello world aaaaaaaaaaaa")
+
 
 def populatePrompt(prompt: str, text: str, existingFilesStr: str) -> str:
     return prompt \
         .replace("{text}", text) \
         .replace("{files}", ", ".join(existingFilesStr))
+
+def populateFindEditsPrompt(prompt: str, newContent: str, existingFilesStr: str) -> str:
+    return prompt \
+            .replace("{newcontent}", newContent) \
+            .replace("{files}", ", ".join(existingFilesStr))
+
+def populateMergeContentPrompt(prompt: str, oldContent: str, newContent: str) -> str:
+    return prompt \
+            .replace("{oldcontent}", oldContent) \
+            .replace("{newcontent}", newContent)
+
+
 
 def raiseErrIfFileNotExists(fileLoc: str) -> str:
     if not os.path.exists(fileLoc): raise Exception("File does not exist")
@@ -25,7 +35,7 @@ def loadTextFile(fileLoc: str) -> str:
     with open(fileLoc, "r", encoding="utf-8") as f:
         return f.read()
 
-def splitSentencesByTokens(text: str, token_split_count: int):
+def splitSentencesByTokens(text: str, token_split_count: int) -> list[str]:
     sentences = splitTextBySentences(text, MAX_SENTECE_WC)
     sentenceTokens = [len(encoding.encode(sentence)) for sentence in sentences]
 
@@ -48,7 +58,7 @@ def splitSentencesByTokens(text: str, token_split_count: int):
     return textPieces
     
 
-def splitTextBySentences(text, max_sentence_wc):
+def splitTextBySentences(text: str, max_sentence_wc: int) -> list[str]:
     def split_long_sentence(sentence):
         if len(sentence.split()) <= max_sentence_wc:
             return [sentence]
@@ -66,7 +76,7 @@ def splitTextBySentences(text, max_sentence_wc):
 
     return [sentence.strip() + "." for sentence in result if sentence.strip() != ""]
 
-def split_mp3_into_parts(audioFileLoc: str, part_size_mb: int):
+def split_mp3_into_parts(audioFileLoc: str, part_size_mb: int) -> list[io.BufferedIOBase]:
     # Convert bytes in-memory MP3 data to an AudioSegment object
     audio_segment = AudioSegment.from_file(io.BytesIO(open(audioFileLoc, "rb")), format='mp3')
 
@@ -91,14 +101,16 @@ def split_mp3_into_parts(audioFileLoc: str, part_size_mb: int):
 
 def splitOutput(output: str) -> list[tuple[str, str]]:
     outputFilePairs = [
-        (fileString.split("\n", 1)[0].strip(), fileString.split("\n", 1)[-1].strip()) for fileString in output.split(NEWFILE_KW) if fileString.strip() not in ("", "---")
+        (fileString.split("\n", 1)[0].strip(), fileString.split("\n", 1)[-1].strip()) for fileString in output.split(NEWSECTION_KW) if fileString.strip() not in ("", "---")
     ]
 
     for i, fp in enumerate(outputFilePairs):
+        if fp[0].strip().startswith("# "):
+            outputFilePairs[i][0] = fp[0][2:]
         if fp[1].strip().startswith("---"):
-            outputFilePairs[i] = fp.strip()[3:]
+            outputFilePairs[i][1] = fp.strip()[3:]
         if fp[1].strip().endswith("---"):
-            outputFilePairs[i] = fp.strip()[:-3]
+            outputFilePairs[i][1] = fp.strip()[:-3]
 
     return outputFilePairs
 
@@ -107,10 +119,11 @@ def saveAllFiles(fileTuples: list[tuple[str, str]], outputDir):
         fileLoc = outputDir + "/" + name + (".md" if not name.endswith(".md") else "")
         saveMarkdownFile(fileLoc, content)
 
-def generateOutputDir():
+def generateOutputDir() -> str:
     return "output/" + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 def saveMarkdownFile(file_path: str, content: str) -> None:
+    file_path = file_path + (".md" if not file_path.endswith(".md") else "")
     # Create the necessary directories if they don't exist
     directory = os.path.dirname(file_path)
     if not os.path.exists(directory):
@@ -120,3 +133,10 @@ def saveMarkdownFile(file_path: str, content: str) -> None:
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(content)
 
+def getExistingFiles(dir: str):
+    fileLocs = []
+    for root, _, files in os.walk(dir):
+        for filename in files:
+            file_path = os.path.join(root, filename)
+            fileLocs.append(file_path)
+    return fileLocs
