@@ -4,4 +4,4 @@ Existing Files
 File
 {text}
 
-Rewrite the mardown file: Use Wikilinks to reference to other concepts, like the ones in the KMS Obsidian. This is a [[Wikilink]] referencing to the concept Wikilink. In Obsidian, you can enhance your Markdown files using Wikilinks to reference other concepts and files. Wikilinks allow for easy navigation and quick access to related information. To reference the concept "Wikilink," simply use double brackets: [[Wikilink]]. This creates a link that, when clicked, will take you directly to the corresponding page on Wikilink. You should also reference files that do not exist yet. Make sure to only return the files.
+Rewrite the mardown file: Use Wikilinks to reference to other concepts. In Obsidian, you can enhance your Markdown files using Wikilinks to reference other concepts and files. Wikilinks allow for easy navigation and quick access to related information. To reference the concept "Wikilink," simply use double brackets: [[Wikilink]]. This creates a link that, when clicked, will take you directly to the corresponding page on Wikilink. You should also reference files that do not exist yet. Make sure to only return the files.

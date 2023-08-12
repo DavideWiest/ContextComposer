@@ -1,2 +1,1 @@
 - if not accurate enough: include previous messages (cost?)
-- if stop reason is not finished, split text input into 2 parts and try again
