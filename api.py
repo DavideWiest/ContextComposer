@@ -29,7 +29,7 @@ def rewriteAllFiles(outputDir):
         if not os.path.isfile(file_path) or not filename.endswith(".md"): continue
         if filename.startswith(".") or ".obsidian" in filename or ".github" in filename: continue
 
-        existing_files.append(file_path)
+        existing_files.append(file_path.replace(".md", ""))
     
     for file_path in existing_files:
         with open(file_path, "r") as f:
