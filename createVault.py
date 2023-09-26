@@ -4,12 +4,15 @@ from helper import *
 from inputHandling import *
 
 
-def getFullGPTOutput(input: str) -> list[tuple[str, str]]:
+def getFullLLMOutput(input: str, llmconsts: LLMConsts) -> list[tuple[str, str]]:
     "splits the text up into"
+
+    if (input.strip() == ""):
+        raise ValueError("Input string may not be empty. This is likely because your options did not allow for text to be extraced/loaded. Try again.")
 
     filePairs = []
 
-    rawPromptTokens = len(encoding.encode(PROMPTTEXT))
+    rawPromptTokens = len(encoding.encode(llmconsts.PROMPTTEXT))
     ssbt = splitSentencesByTokens(input, INPUT_TOKEN_SPLIT_COUNT - rawPromptTokens)
     # print("ssbt")
     # print(ssbt)
@@ -22,7 +25,7 @@ def getFullGPTOutput(input: str) -> list[tuple[str, str]]:
         existingFiles = [fp[0] for fp in filePairs]
         existingFilesStr = ", ".join(existingFiles) + "\n\n"
         response = getGPTOutput(
-            populatePrompt(PROMPTTEXT, subinput, existingFilesStr), MODEL_MAX_TOKENS
+            populatePrompt(llmconsts.PROMPTTEXT, subinput, existingFilesStr), MODEL_MAX_TOKENS
         )
         outputText = response["choices"][0]["message"]["content"]
 
@@ -35,8 +38,9 @@ def getFullGPTOutput(input: str) -> list[tuple[str, str]]:
 
     return filePairs
 
-
 if __name__ == "__main__":
     outputDir = generateOutputDir()
-    saveAllFiles(getFullGPTOutput(loadInputFromTerminal()), outputDir)
-    rewriteAllFiles(outputDir)
+    generatorDir = validatedItemInputFromList("Generator files directory", getGeneratorDirOptions())
+    llmconsts = LLMConsts(generatorDir)
+    saveAllFiles(getFullLLMOutput(loadInputFromTerminal(), llmconsts), outputDir)
+    rewriteAllFiles(outputDir, llmconsts)

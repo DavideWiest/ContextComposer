@@ -22,7 +22,7 @@ def whisperCallSplit(audioParts):
 
     return transcriptFull
 
-def rewriteAllFiles(outputDir):
+def rewriteAllFiles(outputDir, llmconsts: LLMConsts):
     existing_files = []
     for filename in os.listdir(outputDir):
         file_path = os.path.join(outputDir, filename)
@@ -36,7 +36,7 @@ def rewriteAllFiles(outputDir):
             file = f.read()
 
         fileRewritten = getGPTOutput(
-            populatePrompt(PROMPTTEXT_REWRITE, file, os.listdir(outputDir)), MODEL_MAX_TOKENS
+            populatePrompt(llmconsts.PROMPTTEXT_REWRITE, file, os.listdir(outputDir)), MODEL_MAX_TOKENS, llmconsts
         )
         fileRewritten = fileRewritten["choices"][0]["message"]["content"]
 
@@ -44,14 +44,14 @@ def rewriteAllFiles(outputDir):
             f.write(fileRewritten)
 
 
-def getGPTOutput(prompt, maxTotalTokens, previous_messages = []):
+def getGPTOutput(prompt, maxTotalTokens, llmconsts: LLMConsts, previous_messages = []):
     maxOutputTokens = maxTotalTokens - len(encoding.encode(prompt))
     return openai.ChatCompletion.create(
         model=GPT_MODEL,
         messages=[
             {
                 "role": "system",
-                "content": SYSTEM_ROLE
+                "content": llmconsts.SYSTEM_ROLE
             },
         ]
          + previous_messages +

@@ -7,4 +7,7 @@ from inputHandling import *
 colorama.init()
 Fore = colorama.Fore
 
-rewriteAllFiles(input("Dir to rewrite files in: "))
+generatorDir = validatedItemInputFromList("Generator files directory", getGeneratorDirOptions())
+llmconsts = LLMConsts(generatorDir)
+
+rewriteAllFiles(input("Dir to rewrite files in: "), llmconsts)
