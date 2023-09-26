@@ -1,7 +1,7 @@
-Existing Files
+Überarbeiten Sie die Markdown-Datei: Verwenden Sie Wikilinks, um auf andere Konzepte zu verweisen. In Obsidian können Sie Ihre Markdown-Dateien mithilfe von Wikilinks verbessern, um auf andere Konzepte und Dateien zu verweisen. Wikilinks ermöglichen einfache Navigation und schnellen Zugriff auf verwandte Informationen. Um das Konzept "[[Wikilink]]" zu verweisen, verwenden Sie einfach doppelte Klammern: [[Wikilink]]. Dies erstellt einen Link, der Sie beim Anklicken direkt zur entsprechenden Seite über Wikilink führt. Sie sollten auch Dateien verweisen, die noch nicht existieren. Stellen Sie sicher, dass nur die Dateien zurückgegeben werden
+
+Existierende Dateien:
 {files}
 
-File
+Text:
 {text}
-
-Rewrite the markdown file: Use Wikilinks to reference other concepts. In Obsidian, you can enhance your Markdown files using Wikilinks to reference other concepts and files. Wikilinks allow for easy navigation and quick access to related information. To reference the concept "[[Wikilink]]", simply use double brackets: [[Wikilink]]. This creates a link that, when clicked, will take you directly to the corresponding page on Wikilink. You should also reference files that do not exist yet. Make sure to only return the files.

@@ -5,7 +5,7 @@ import openai
 from consts import *
 from helper import *
 
-openai.api_key = os.getenv("OPENAI_MAC_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def getTextFromAudioFile(audioFileLoc):
@@ -29,10 +29,10 @@ def rewriteAllFiles(outputDir, llmconsts: LLMConsts):
         if not os.path.isfile(file_path) or not filename.endswith(".md"): continue
         if filename.startswith(".") or ".obsidian" in filename or ".github" in filename: continue
 
-        existing_files.append(file_path.replace(".md", ""))
+        existing_files.append(file_path)
     
     for file_path in existing_files:
-        with open(file_path, "r") as f:
+        with open(os.path.join(os.getcwd(), file_path), "r") as f:
             file = f.read()
 
         fileRewritten = getGPTOutput(

@@ -18,5 +18,12 @@ def extractVideoId(youtubeLinkOrId: str) -> str:
     if "youtube." in youtubeLinkOrId: return youtubeLinkOrId.split("v=")[-1].split("&")[0]
     return youtubeLinkOrId.split("/")[-1].split("&")[0]
 
-def getAvailableTranscripts(ytVideoId: str) -> TranscriptList:
-    return YouTubeTranscriptApi.list_transcripts(ytVideoId)
+def getAvailableTranscripts(ytVideoId: str) -> list:
+    return [i.language_code for i in YouTubeTranscriptApi.list_transcripts(ytVideoId)]
+
+def getTranscript(textinput: str) -> str:
+    ytVideoId = extractVideoId(textinput)
+    availabletranscripts = getAvailableTranscripts(ytVideoId)
+    print(availabletranscripts)
+    youtubeTranscriptLanguage = validatedItemInputFromList("Transcript language: ", availabletranscripts)
+    return loadTranscriptYoutube(ytVideoId, youtubeTranscriptLanguage)

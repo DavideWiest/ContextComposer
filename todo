@@ -1,1 +1,2 @@
 - if not accurate enough: include previous messages (cost?)
+openai.error.InvalidRequestError: -3926 is less than the minimum of 1 - 'max_tokens'

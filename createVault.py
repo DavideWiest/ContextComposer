@@ -25,9 +25,13 @@ def getFullLLMOutput(input: str, llmconsts: LLMConsts) -> list[tuple[str, str]]:
         existingFiles = [fp[0] for fp in filePairs]
         existingFilesStr = ", ".join(existingFiles) + "\n\n"
         response = getGPTOutput(
-            populatePrompt(llmconsts.PROMPTTEXT, subinput, existingFilesStr), MODEL_MAX_TOKENS
+            populatePrompt(llmconsts.PROMPTTEXT, subinput, existingFilesStr), MODEL_MAX_TOKENS, llmconsts
         )
         outputText = response["choices"][0]["message"]["content"]
+        print("log: raw output")
+        print("---")
+        print(outputText)
+        print("---")
 
         if response["choices"][0]["finish_reason"] != "stop":
             subinput_0, subinput_1 = splitSentencesByTokens(input, math.ceil(INPUT_TOKEN_SPLIT_COUNT / 2))

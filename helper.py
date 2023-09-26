@@ -99,28 +99,28 @@ def split_mp3_into_parts(audioFileLoc: str, part_size_mb: int) -> list[io.Buffer
 
     return parts
 
-def splitOutput(output: str) -> list[tuple[str, str]]:
+def splitOutput(output: str) -> list[list[str, str]]:
     outputFilePairs = [
-        (fileString.split("\n", 1)[0].strip(), fileString.split("\n", 1)[-1].strip()) for fileString in output.split(NEWSECTION_KW) if fileString.strip() not in ("", "---")
+        [fileString.split("\n", 1)[0].strip(), fileString.split("\n", 1)[-1].strip()] for fileString in output.split(NEWSECTION_KW) if fileString.strip() not in ("", "---")
     ]
 
     for i, fp in enumerate(outputFilePairs):
         if fp[0].strip().startswith("# "):
             outputFilePairs[i][0] = fp[0][2:]
         if fp[1].strip().startswith("---"):
-            outputFilePairs[i][1] = fp.strip()[3:]
+            outputFilePairs[i][1] = fp[1].strip()[3:]
         if fp[1].strip().endswith("---"):
-            outputFilePairs[i][1] = fp.strip()[:-3]
+            outputFilePairs[i][1] = fp[1].strip()[:-3]
 
     return outputFilePairs
 
-def saveAllFiles(fileTuples: list[tuple[str, str]], outputDir):
+def saveAllFiles(fileTuples: list[list[str, str]], outputDir):
     for name, content in fileTuples:
         fileLoc = outputDir + "/" + name + (".md" if not name.endswith(".md") else "")
         saveMarkdownFile(fileLoc, content)
 
 def generateOutputDir() -> str:
-    return "output/" + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    return "output" + os.path.sep + datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 
 def saveMarkdownFile(file_path: str, content: str) -> None:
     file_path = file_path + (".md" if not file_path.endswith(".md") else "")
@@ -130,7 +130,7 @@ def saveMarkdownFile(file_path: str, content: str) -> None:
         os.makedirs(directory)
 
     # Save the file with the provided content
-    with open(file_path, 'w', encoding='utf-8') as file:
+    with open(os.path.join(os.getcwd(), file_path), 'w', encoding='utf-8') as file:
         file.write(content)
 
 def getExistingFiles(dir: str):
@@ -140,3 +140,18 @@ def getExistingFiles(dir: str):
             file_path = os.path.join(root, filename)
             fileLocs.append(file_path)
     return fileLocs
+
+def validatedItemInputFromList(inputTitle: str, inputs: list):
+    print(f"{inputTitle}")
+    print("\n".join(f" - {i}: {item}" for i, item in enumerate(inputs)))
+
+    try:
+        selectedIndex = int(input(f"Select an item (0-{len(inputs)-1}): "))
+        if (selectedIndex < 0 or selectedIndex >= len(inputs)): 
+            raise ValueError()
+    except ValueError:
+        print("Invalid input, try again")
+        return validatedItemInputFromList(inputTitle, inputs)
+    
+    
+    return inputs[selectedIndex]
