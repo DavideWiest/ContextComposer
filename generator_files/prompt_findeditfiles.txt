@@ -1,7 +1,0 @@
-Sections:
-{files}
-
-Information:
-{newcontent}
-
-Sort the information into different sections, in markdown format. Use h1-Headings to reference to the section. If a piece of information does not fit into any of the existing sections, simply reference a new one in the same way: With a h1-heading. USE ONLY h1-HEADINGS!!!

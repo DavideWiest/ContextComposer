@@ -1,0 +1,7 @@
+Alte Informationen:
+{alte Inhalte}
+
+Neue Informationen:
+{neue Inhalte}
+
+Fügen Sie die alten Informationen mit den neuen Informationen zusammen. Wenn es einen Konflikt zwischen den beiden gibt, wählen Sie die neueren Informationen. Geben Sie nur die zusammengefügte Version zurück. Verwenden Sie Wikilinks ([[Beispiel]]) , um Konzepte zu verweisen, die mit doppelten eckigen Klammern deklariert sind.

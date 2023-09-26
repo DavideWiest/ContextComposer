@@ -1,0 +1,5 @@
+
+Information:
+{Text}
+
+Organisieren Sie diese Informationen in Textdateien. Stellen Sie sicher, dass Sie nur diese Dateien zurückgeben. Ignorieren Sie irrelevante Informationen, die nicht auf das Projekt zutreffen. Jedes kleine Modul sollte seine eigene Sektion haben, die durch eine h1-Überschrift gekennzeichnet ist. VERWENDEN SIE NUR h1- und h3-ÜBERSCHRIFTEN

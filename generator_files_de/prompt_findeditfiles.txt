@@ -1,0 +1,7 @@
+Abschnitte:
+{Dateien}
+
+Information:
+{Neuer Inhalt}
+
+Sortieren Sie die Informationen in verschiedene Abschnitte im Markdown-Format. Verwenden Sie h1-Überschriften, um auf den Abschnitt zu verweisen. Wenn eine Information in keinen der vorhandenen Abschnitte passt, verweisen Sie einfach auf einen neuen Abschnitt auf die gleiche Weise: Mit einer h1-Überschrift. VERWENDEN SIE NUR h1-ÜBERSCHRIFTEN!!!

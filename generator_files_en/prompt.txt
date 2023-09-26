@@ -1,0 +1,5 @@
+
+Information:
+{text}
+
+Organize this information into text files. Make sure to only return those files. Ignore irrelevant information that does not apply to the project. Each little module should have its own section, marked by an h1-heading. USE ONLY h1- and h3-HEADINGS!!!!!
